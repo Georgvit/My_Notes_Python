@@ -18,7 +18,7 @@ class NotesView:
                 case 'CREATE':
                     topic = input("Введите тему записи:")
                     text = input("Введите текси записи:")
-                    date = datetime.datetime.today()
+                    date = datetime.date.today()
                     notes = Notes(date, topic, text)
                     notesCont = NotesController()
                     notesCont.createNote(notes)

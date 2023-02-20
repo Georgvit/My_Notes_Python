@@ -23,18 +23,27 @@ class NotesController:
         text = (f"id:{test.get('id')};date:{test.get('date')};"
               f"topic:{test.get('topic')};text:{test.get('text')}\n")
         # Создаем и открываем файлы для записи оригинального текста
-        o_text = open('original_text.txt', 'a+')
+        o_text = open('original_text.csv', 'a+')
 
         # Записываем данные в файл и закрываем их
         o_text.write(text)
         o_text.close()
 
     def readText(self):
-        with open('original_text.txt', 'r') as file:
+        with open('original_text.csv', 'r') as file:
             for line in file.readlines():
                 listtest = list(line.split(";"))
                 for s in listtest:
-                    print(s)
+                    t = s.split(':')
+                    for e in range(len(t)):
+                        if t[e] == 'id':
+                            print(t[e + 1])
+                        if t[e] == 'date':
+                            print(t[e + 1])
+                        if t[e] == 'topic':
+                            print(t[e + 1])
+                        if t[e] == 'text':
+                            print(t[e + 1])
 
 
 
