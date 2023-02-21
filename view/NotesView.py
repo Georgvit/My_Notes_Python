@@ -1,8 +1,8 @@
 import datetime
 
-from src.controllers.NotesController import NotesController
-from src.model.Note import Note
-from src.view.NotesCommands import NotesCommands
+from controllers.NotesController import NotesController
+from model.Note import Note
+from view.NotesCommands import NotesCommands
 
 
 class NotesView:
