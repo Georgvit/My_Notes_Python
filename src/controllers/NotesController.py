@@ -1,49 +1,95 @@
+import os.path
 class NotesController:
     noteslist = []
-    test = {}
+    notesDictionary = {}
+    idUser = 0
 
+    # Создание массива данных
     def createNote(self, notes):
-        self.test = {"id": notes.count, 'date': notes.date, 'topic': notes.topic, 'text': notes.text}
-        self.noteslist.append(self.test)
-        self.encrypted(self.test)
+        self.notesDictionary = {"id": notes.id, 'date': notes.date, 'topic': notes.topic, 'text': notes.text}
+        self.noteslist.append(self.notesDictionary)
+        self.createFileAndWriteText(self.notesDictionary)
 
-    def printNote(self):
-        self.readText()
-        # for s in range(len(self.noteslist)):
-        #     self.printTest(self.noteslist[s])
+    # Вывод данных
+    def dataOutput(self):
+        if self.trueFile():
+            self.readFileAndPrintTextNote()
+        else:
+            for s in range(len(self.noteslist)):
+                self.printTextNote(self.noteslist[s])
+
+    # Выводим записи в консоль
+    def printTextNote(self, notesDictionary):
+        print(f"id: {notesDictionary.get('id')} \nДата создания: {notesDictionary.get('date')}\n"
+              f"Тема: {notesDictionary.get('topic')}\nТекст: {notesDictionary.get('text')}\n")
 
 
-
-    def printTest(self,test):
-        print(f"id: {test.get('id')} \nДата создания: {test.get('date')}\n"
-              f"Тема: {test.get('topic')}\nТекст: {test.get('text')}\n")
-
-
-    def encrypted(self,test):
-        text = (f"id:{test.get('id')};date:{test.get('date')};"
-              f"topic:{test.get('topic')};text:{test.get('text')}\n")
-        # Создаем и открываем файлы для записи оригинального текста
-        o_text = open('original_text.csv', 'a+')
-
+    # Создаем и записываем данные в файл
+    def createFileAndWriteText(self, notesDictionary):
+        text = (f"id:{notesDictionary.get('id')};date:{notesDictionary.get('date')};"
+              f"topic:{notesDictionary.get('topic')};text:{notesDictionary.get('text')}\n")
+        # Создаем и открываем файлы для записи текста
+        tempFile = open('BD_NOTES.csv', 'a+')
         # Записываем данные в файл и закрываем их
-        o_text.write(text)
-        o_text.close()
+        tempFile.write(text)
+        tempFile.close()
 
-    def readText(self):
-        with open('original_text.csv', 'r') as file:
+    # Читаем и выводим данные из файла
+    def readFileAndPrintTextNote(self):
+        with open('BD_NOTES.csv', 'r') as file:
             for line in file.readlines():
-                listtest = list(line.split(";"))
-                for s in listtest:
+                noteslist = list(line.split(";"))
+                for s in noteslist:
                     t = s.split(':')
                     for e in range(len(t)):
                         if t[e] == 'id':
-                            print(t[e + 1])
+                            self.idUser = t[e + 1]
+                            print(f"id: {t[e + 1]}")
                         if t[e] == 'date':
-                            print(t[e + 1])
+                            print(f"Дата создания: {t[e + 1]}")
                         if t[e] == 'topic':
-                            print(t[e + 1])
+                            print(f"Тема: {t[e + 1]}")
                         if t[e] == 'text':
-                            print(t[e + 1])
+                            print(f"Текст: {t[e + 1]}")
+
+    # Проверяем и парсим id последней записи
+    def readFile(self):
+        with open('BD_NOTES.csv', 'r') as file:
+            for line in file.readlines():
+                noteslist = list(line.split(";"))
+                for s in noteslist:
+                    t = s.split(':')
+                    for e in range(len(t)):
+                        if t[e] == 'id':
+                            self.idUser = t[e + 1]
+
+    # Получаем номер id последней записи
+    def getFinalId(self):
+        self.readFile()
+        return self.idUser
+
+    # Проверяем существует ли файл
+    def trueFile(self):
+        return os.path.isfile('BD_NOTES.csv')
+
+    # Проверяем есть ли записи в файле
+    def sizeFile(self):
+        if os.path.isfile('BD_NOTES.csv'):
+            return os.path.getsize('BD_NOTES.csv')
+
+    # Удаление всех записей
+    def clearingFile(self):
+        tempFile = open('BD_NOTES.csv', 'w+')
+        tempFile.seek(0)
+        tempFile.close()
+
+    # Проверяем массив на наличие данных
+    def boolNoteslist(self):
+        if len(self.noteslist) > 0:
+            return True
+        else:
+            return False
+
 
 
 
