@@ -28,15 +28,21 @@ class NotesView:
                     notesCont.createNote(notes)
 
                 case 'READ':
+                    id = input("Введите номер записи:")
                     if notesCont.sizeFile():
-                        notesCont.dataOutput()
+                        notesCont.dataOutput(id)
                     elif notesCont.boolNoteslist():
                         notesCont.dataOutput()
                     else:
                         print('Записи в файле отсутствуют!')
 
                 case 'LIST':
-                    notesCont.dataOutput()
+                    if notesCont.sizeFile():
+                        notesCont.dataOutput(None)
+                    elif notesCont.boolNoteslist():
+                        notesCont.dataOutput()
+                    else:
+                        print('Записи в файле отсутствуют!')
                 case 'DELETE':
                     notesCont.clearingFile()
 

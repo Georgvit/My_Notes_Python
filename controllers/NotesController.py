@@ -1,4 +1,5 @@
 import os.path
+import re
 class NotesController:
     noteslist = []
     notesDictionary = {}
@@ -11,8 +12,10 @@ class NotesController:
         self.createFileAndWriteText(self.notesDictionary)
 
     # Вывод данных
-    def dataOutput(self):
-        if self.trueFile():
+    def dataOutput(self, id):
+        if id != None:
+            self.readFileAndPrintTextNoteId(id)
+        elif self.trueFile():
             self.readFileAndPrintTextNote()
         else:
             for s in range(len(self.noteslist)):
@@ -51,6 +54,27 @@ class NotesController:
                             print(f"Тема: {t[e + 1]}")
                         if t[e] == 'text':
                             print(f"Текст: {t[e + 1]}")
+
+    def readFileAndPrintTextNoteId(self,id):
+        with open('BD_NOTES.csv', 'r') as file:
+            for line in file.readlines():
+                testr = re.split(":|;", line)
+                if testr[1] == id:
+                    noteslist = list(line.split(";"))
+                    for s in noteslist:
+                        t = s.split(':')
+                        for e in range(len(t)):
+                            if t[e] == 'id':
+                                self.idUser = t[e + 1]
+                                print(f"id: {t[e + 1]}")
+                            if t[e] == 'date':
+                                print(f"Дата создания: {t[e + 1]}")
+                            if t[e] == 'topic':
+                                print(f"Тема: {t[e + 1]}")
+                            if t[e] == 'text':
+                                print(f"Текст: {t[e + 1]}")
+
+
 
     # Проверяем и парсим id последней записи
     def readFile(self):
