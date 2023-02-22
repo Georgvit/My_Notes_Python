@@ -1,4 +1,5 @@
 class Note:
+    # Конструктор записки
     def __init__(self, id, date, topic, text):
         self.id = id
         self.date = date
