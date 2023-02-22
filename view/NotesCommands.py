@@ -1,6 +1,6 @@
 from enum import Enum, auto
 
-
+# Команды
 class NotesCommands(Enum):
     CREATE = 'CREATE'
     READ = 'READ'
