@@ -55,6 +55,7 @@ class NotesController:
                         if t[e] == 'text':
                             print(f"Текст: {t[e + 1]}")
 
+    # Чтение файла и вывод в консоль
     def readFileAndPrintTextNoteId(self,id):
         with open('BD_NOTES.csv', 'r') as file:
             for line in file.readlines():
