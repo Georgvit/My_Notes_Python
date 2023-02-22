@@ -20,10 +20,10 @@ class NotesView:
                     topic = input("Введите тему записи:")
                     text = input("Введите текси записи:")
                     date = datetime.date.today()
-                    if notesCont.trueFile():
-                        self.id = int(notesCont.getFinalId()) + 1
-                    else:
-                        self.id += 1
+                    topic = input("Введите тему записи:")
+                    text = input("Введите текси записи:")
+                    date = datetime.date.today()
+                    self.id = notesCont.getFinalId()
                     notes = Note(self.id, date, topic, text)
                     notesCont.createNote(notes)
 

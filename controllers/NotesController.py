@@ -55,7 +55,6 @@ class NotesController:
                         if t[e] == 'text':
                             print(f"Текст: {t[e + 1]}")
 
-    # Чтение файла и вывод в консоль
     def readFileAndPrintTextNoteId(self,id):
         with open('BD_NOTES.csv', 'r') as file:
             for line in file.readlines():
@@ -86,11 +85,15 @@ class NotesController:
                     t = s.split(':')
                     for e in range(len(t)):
                         if t[e] == 'id':
-                            self.idUser = t[e + 1]
+                            self.idUser = int(t[e + 1])
 
     # Получаем номер id последней записи
     def getFinalId(self):
-        self.readFile()
+        if self.trueFile():
+            self.readFile()
+            self.idUser += 1
+        else:
+            self.idUser += 1
         return self.idUser
 
     # Проверяем существует ли файл
@@ -114,7 +117,3 @@ class NotesController:
             return True
         else:
             return False
-
-
-
-
