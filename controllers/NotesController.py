@@ -26,6 +26,16 @@ class NotesController:
         else:
             print('Записи в файле отсутствуют!')
 
+    # Обновление данных
+    def dataUpdate(self, id, comand):
+        if self.sizeFile():
+            if id != None:
+                self.upateTextNote(id, comand)
+            else:
+                print('Не корректный ID')
+        else:
+            print('Записи в файле отсутствуют!')
+
     # Выводим записи в консоль
     def printTextNote(self, notesDictionary):
         print(f"id: {notesDictionary.get('id')} \nДата создания: {notesDictionary.get('date')}\n"
@@ -40,6 +50,17 @@ class NotesController:
         # Записываем данные в файл и закрываем их
         tempFile.write(text)
         tempFile.close()
+
+    def updateFileAndWriteText(self, templist):
+
+        for tmp in templist:
+            text = (f"id:{tmp.get('id')};date:{tmp.get('date')};"
+                    f"topic:{tmp.get('topic')};text:{tmp.get('text')}")
+            # Создаем и открываем файлы для записи обновленного текста
+            tempFile = open('BD_NOTES.csv', 'a+')
+            # Записываем данные в файл и закрываем их
+            tempFile.writelines(text)
+            tempFile.close()
 
     # Читаем и выводим данные из файла
     def readFileAndPrintTextNote(self):
@@ -83,6 +104,58 @@ class NotesController:
                     temp_count += 1
         if temp_count > 0:
             print('Нет записи с таким ID')
+
+    #  Обновление записи
+    def upateTextNote(self, id, comand):
+        templist = []
+        with open('BD_NOTES.csv', 'r') as file:
+            for line in file.readlines():
+                line.replace('\n', '')
+                idTemp = None
+                dataTemp = None
+                topicTemp = None
+                textTemp = None
+                testr = re.split(":|;", line)
+                noteslist = list(line.split(";"))
+                if testr[1] == id:
+                    noteslist = list(line.split(";"))
+                    for s in noteslist:
+                        t = s.split(':')
+                        for e in range(len(t)):
+                            if t[e] == 'id':
+                                idTemp = t[e + 1]
+                            if t[e] == 'date':
+                                dataTemp = t[e + 1]
+                            if t[e] == 'topic':
+                                if comand == 'topic':
+                                    topicTemp = input('Введите новую тему записи')
+                                else:
+                                    topicTemp = t[e + 1]
+                            if t[e] == 'text':
+                                if comand == 'text':
+                                    textTemp = input('Введите новый текст записи') + '\n'
+                                else:
+                                    textTemp = t[e + 1]
+                    notesDictionary = {"id": idTemp, 'date': dataTemp, 'topic': topicTemp,
+                                       'text': textTemp}
+                    templist.append(notesDictionary)
+                else:
+                    for s in noteslist:
+                        t = s.split(':')
+                        for e in range(len(t)):
+                            if t[e] == 'id':
+                                idTemp = t[e + 1]
+                            if t[e] == 'date':
+                                dataTemp = t[e + 1]
+                            if t[e] == 'topic':
+                                topicTemp = t[e + 1]
+                            if t[e] == 'text':
+                                textTemp = t[e + 1]
+                    notesDictionary = {"id": idTemp, 'date': dataTemp, 'topic': topicTemp,
+                                       'text': textTemp}
+                    templist.append(notesDictionary)
+        self.clearingFile()
+        self.updateFileAndWriteText(templist)
 
     # Проверяем и парсим id последней записи
     def readFile(self):
