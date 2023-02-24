@@ -24,8 +24,12 @@ class NotesView:
                     self.id = notesCont.getFinalId()
                     notes = Note(self.id, date, topic, text)
                     notesCont.createNote(notes)
+
                 case 'UPDATE':
                     id = input("Введите номер записи:")
+                    self.litlMenu()
+                    comandUpdat = input()
+                    notesCont.dataUpdate(id, comandUpdat)
 
                 case 'READ':
                     id = input("Введите номер записи:")
@@ -33,6 +37,7 @@ class NotesView:
 
                 case 'LIST':
                     notesCont.dataOutput(None)
+
                 case 'DELETE':
                     notesCont.clearingFile()
 
@@ -45,3 +50,8 @@ class NotesView:
               NotesCommands.LIST.value, "- вывод всех записей. \n",
               NotesCommands.DELETE.value, "- удаление записей. \n",
               NotesCommands.EXIT.value, "- выход из программы. \n")
+    def litlMenu(self):
+        print("\nЧто изменить в существующей записи: \n",
+              NotesCommands.TOPIC.value, "- изменить тему записи. \n",
+              NotesCommands.TEXT.value, "- изменить текс записи. \n")
+

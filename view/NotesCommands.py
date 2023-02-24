@@ -8,3 +8,5 @@ class NotesCommands(Enum):
     LIST = 'LIST'
     DELETE = 'DELETE'
     EXIT = 'EXIT'
+    TOPIC = 'TOPIC'
+    TEXT = 'TEXT'
