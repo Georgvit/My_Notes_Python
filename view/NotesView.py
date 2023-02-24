@@ -7,6 +7,7 @@ from view.NotesCommands import NotesCommands
 
 class NotesView:
     id = 0
+
     def run(self):
         while True:
             self.greeting()
@@ -20,29 +21,18 @@ class NotesView:
                     topic = input("Введите тему записи:")
                     text = input("Введите текси записи:")
                     date = datetime.date.today()
-                    topic = input("Введите тему записи:")
-                    text = input("Введите текси записи:")
-                    date = datetime.date.today()
                     self.id = notesCont.getFinalId()
                     notes = Note(self.id, date, topic, text)
                     notesCont.createNote(notes)
+                case 'UPDATE':
+                    id = input("Введите номер записи:")
 
                 case 'READ':
                     id = input("Введите номер записи:")
-                    if notesCont.sizeFile():
-                        notesCont.dataOutput(id)
-                    elif notesCont.boolNoteslist():
-                        notesCont.dataOutput()
-                    else:
-                        print('Записи в файле отсутствуют!')
+                    notesCont.dataOutput(id)
 
                 case 'LIST':
-                    if notesCont.sizeFile():
-                        notesCont.dataOutput(None)
-                    elif notesCont.boolNoteslist():
-                        notesCont.dataOutput()
-                    else:
-                        print('Записи в файле отсутствуют!')
+                    notesCont.dataOutput(None)
                 case 'DELETE':
                     notesCont.clearingFile()
 

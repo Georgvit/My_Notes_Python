@@ -1,5 +1,7 @@
 import os.path
 import re
+
+
 class NotesController:
     noteslist = []
     notesDictionary = {}
@@ -13,24 +15,26 @@ class NotesController:
 
     # Вывод данных
     def dataOutput(self, id):
-        if id != None:
-            self.readFileAndPrintTextNoteId(id)
-        elif self.trueFile():
-            self.readFileAndPrintTextNote()
+        if self.sizeFile():
+            if id != None:
+                self.readFileAndPrintTextNoteId(id)
+            elif self.trueFile():
+                self.readFileAndPrintTextNote()
+            else:
+                for s in range(len(self.noteslist)):
+                    self.printTextNote(self.noteslist[s])
         else:
-            for s in range(len(self.noteslist)):
-                self.printTextNote(self.noteslist[s])
+            print('Записи в файле отсутствуют!')
 
     # Выводим записи в консоль
     def printTextNote(self, notesDictionary):
         print(f"id: {notesDictionary.get('id')} \nДата создания: {notesDictionary.get('date')}\n"
               f"Тема: {notesDictionary.get('topic')}\nТекст: {notesDictionary.get('text')}\n")
 
-
     # Создаем и записываем данные в файл
     def createFileAndWriteText(self, notesDictionary):
         text = (f"id:{notesDictionary.get('id')};date:{notesDictionary.get('date')};"
-              f"topic:{notesDictionary.get('topic')};text:{notesDictionary.get('text')}\n")
+                f"topic:{notesDictionary.get('topic')};text:{notesDictionary.get('text')}\n")
         # Создаем и открываем файлы для записи текста
         tempFile = open('BD_NOTES.csv', 'a+')
         # Записываем данные в файл и закрываем их
@@ -55,9 +59,10 @@ class NotesController:
                         if t[e] == 'text':
                             print(f"Текст: {t[e + 1]}")
 
-    def readFileAndPrintTextNoteId(self,id):
+    def readFileAndPrintTextNoteId(self, id):
         with open('BD_NOTES.csv', 'r') as file:
             for line in file.readlines():
+                temp_count = 0
                 testr = re.split(":|;", line)
                 if testr[1] == id:
                     noteslist = list(line.split(";"))
@@ -73,8 +78,11 @@ class NotesController:
                                 print(f"Тема: {t[e + 1]}")
                             if t[e] == 'text':
                                 print(f"Текст: {t[e + 1]}")
-
-
+                    break
+                else:
+                    temp_count += 1
+        if temp_count > 0:
+            print('Нет записи с таким ID')
 
     # Проверяем и парсим id последней записи
     def readFile(self):
