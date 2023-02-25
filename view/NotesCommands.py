@@ -6,6 +6,7 @@ class NotesCommands(Enum):
     READ = 'READ'
     UPDATE = 'UPDATE'
     LIST = 'LIST'
+    UNLOADING = 'UNLOAD'
     DELETE = 'DELETE'
     EXIT = 'EXIT'
     TOPIC = 'TOPIC'

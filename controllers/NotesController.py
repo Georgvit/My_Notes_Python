@@ -26,10 +26,20 @@ class NotesController:
         else:
             print('Записи в файле отсутствуют!')
 
+    #  Вывод по дате
+    def outputByDate(self, dateSt, dateFin):
+        if self.sizeFile():
+            if dateSt != '':
+                self.readFileAndPrintTextNoteDate(dateSt, dateFin)
+            else:
+                print('Некорректный ввод')
+        else:
+            print('Записи в файле отсутствуют!')
+
     # Обновление данных
     def dataUpdate(self, id, comand):
         if self.sizeFile():
-            if id != None:
+            if id != '':
                 self.upateTextNote(id, comand)
             else:
                 print('Не корректный ID')
@@ -51,6 +61,7 @@ class NotesController:
         tempFile.write(text)
         tempFile.close()
 
+    # Запись обновленных данных в файл
     def updateFileAndWriteText(self, templist):
 
         for tmp in templist:
@@ -80,6 +91,7 @@ class NotesController:
                         if t[e] == 'text':
                             print(f"Текст: {t[e + 1]}")
 
+    # Чтение файла и вывод в консоль
     def readFileAndPrintTextNoteId(self, id):
         with open('BD_NOTES.csv', 'r') as file:
             for line in file.readlines():
@@ -105,6 +117,44 @@ class NotesController:
         if temp_count > 0:
             print('Нет записи с таким ID')
 
+    # Чтение файла и вывод в консоль по дате
+    def readFileAndPrintTextNoteDate(self, dateStart, dateFinal):
+        with open('BD_NOTES.csv', 'r') as file:
+            stopCycle = True
+            startCycle = False
+            for line in file.readlines():
+                testr = re.split(":|;", line)
+                if testr[3] == dateFinal:
+                    noteslist = list(line.split(";"))
+                    for s in noteslist:
+                        t = s.split(':')
+                        for e in range(len(t)):
+                            if t[e] == 'id':
+                                stopCycle = False
+                if testr[3] == dateStart:
+                    noteslist = list(line.split(";"))
+                    for s in noteslist:
+                        t = s.split(':')
+                        for e in range(len(t)):
+                            if t[e] == 'id':
+                                startCycle = True
+                if startCycle:
+                    if stopCycle:
+                        noteslist = list(line.split(";"))
+                        for s in noteslist:
+                            t = s.split(':')
+                            for e in range(len(t)):
+                                if t[e] == 'id':
+                                    self.idUser = t[e + 1]
+                                    print(f"id: {t[e + 1]}")
+                                if t[e] == 'date':
+                                    print(f"Дата создания: {t[e + 1]}")
+                                if t[e] == 'topic':
+                                    print(f"Тема: {t[e + 1]}")
+                                if t[e] == 'text':
+                                    print(f"Текст: {t[e + 1]}")
+
+
     #  Обновление записи
     def upateTextNote(self, id, comand):
         templist = []
@@ -128,12 +178,12 @@ class NotesController:
                                 dataTemp = t[e + 1]
                             if t[e] == 'topic':
                                 if comand == 'topic':
-                                    topicTemp = input('Введите новую тему записи')
+                                    topicTemp = input('Введите новую тему записи: ')
                                 else:
                                     topicTemp = t[e + 1]
                             if t[e] == 'text':
                                 if comand == 'text':
-                                    textTemp = input('Введите новый текст записи') + '\n'
+                                    textTemp = input('Введите новый текст записи: ') + '\n'
                                 else:
                                     textTemp = t[e + 1]
                     notesDictionary = {"id": idTemp, 'date': dataTemp, 'topic': topicTemp,
