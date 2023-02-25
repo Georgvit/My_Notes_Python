@@ -154,7 +154,6 @@ class NotesController:
                                 if t[e] == 'text':
                                     print(f"Текст: {t[e + 1]}")
 
-
     #  Обновление записи
     def upateTextNote(self, id, comand):
         templist = []

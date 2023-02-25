@@ -34,6 +34,7 @@ class NotesView:
                 case 'READ':
                     id = input("Введите номер записи:")
                     notesCont.dataOutput(id)
+
                 case 'UNLOAD':
                     startDate = input("Введите начальную дату в формате гггг-мм-дд:")
                     finalDate = input("Введите конечную дату в формате гггг-мм-дд:")
