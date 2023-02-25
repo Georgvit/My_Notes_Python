@@ -26,14 +26,19 @@ class NotesView:
                     notesCont.createNote(notes)
 
                 case 'UPDATE':
-                    id = input("Введите номер записи:")
+                    id = input("Введите номер записи: ")
                     self.litlMenu()
-                    comandUpdat = input()
+                    comandUpdat = input('Введите команду: ')
                     notesCont.dataUpdate(id, comandUpdat)
 
                 case 'READ':
                     id = input("Введите номер записи:")
                     notesCont.dataOutput(id)
+
+                case 'UNLOAD':
+                    startDate = input("Введите начальную дату в формате гггг-мм-дд:")
+                    finalDate = input("Введите конечную дату в формате гггг-мм-дд:")
+                    notesCont.outputByDate(startDate, finalDate)
 
                 case 'LIST':
                     notesCont.dataOutput(None)
@@ -46,12 +51,13 @@ class NotesView:
         print("\nСписок команд записной книги: \n",
               NotesCommands.CREATE.value, "- создание новой записи. \n",
               NotesCommands.READ.value, "- чтение записи по ID. \n",
+              NotesCommands.UNLOADING.value, "- выгрузка записей по дате. \n",
               NotesCommands.UPDATE.value, "- обновление записи. \n",
               NotesCommands.LIST.value, "- вывод всех записей. \n",
               NotesCommands.DELETE.value, "- удаление записей. \n",
               NotesCommands.EXIT.value, "- выход из программы. \n")
+
     def litlMenu(self):
         print("\nЧто изменить в существующей записи: \n",
               NotesCommands.TOPIC.value, "- изменить тему записи. \n",
               NotesCommands.TEXT.value, "- изменить текс записи. \n")
-
